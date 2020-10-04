@@ -7,11 +7,17 @@ export class User {
     id: number;
 
     @Column({ length: 25 })
-    fullName:string;
+    fullName: string;
 
-    @Column('date') 
-    birthday:Date;
+    @Column('date')
+    birthday: Date;
 
-    @Column() 
-    isActive:boolean;
+    @Column({ unique: true })
+    email: string;
+
+    @Column()
+    password: string;
+
+    @Column()
+    isActive: boolean;
 }
