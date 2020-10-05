@@ -1,9 +1,8 @@
 
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Posts } from '../entity/post.entity';
-
 
 @Injectable()
 export class PostsService {
@@ -15,11 +14,11 @@ export class PostsService {
         return await this.postsRepository.find();
     }
 
-    async getPost(_id: number): Promise<Posts[]> {
-        return await this.postsRepository.find({
-            select: ["content", "title"],
-            where: [{ "id": _id }]
-        });
+    async getPost(id: number): Promise<Posts> {
+        const post = await this.postsRepository.findOne({ id });
+        if (post) {
+            return post;
+        }
     }
 
     async replacePost(id: number, post: Posts) {

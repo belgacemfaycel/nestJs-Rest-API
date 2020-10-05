@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, UseFilters } from '@nestjs/common';
 import { Posts } from '../entity/post.entity';
 import { PostsService } from './posts.service';
 import JwtAuthenticationGuard from '../authentification/jwt-authentication.guard';
+import { ExceptionsLoggerFilter } from '../utils/exceptionsLogger.filter';
 
 @Controller('posts')
 export class PostsController {
@@ -15,6 +16,7 @@ export class PostsController {
     }
 
     @Get(':id')
+    @UseFilters(ExceptionsLoggerFilter)
     getPostById(@Param('id') id: string) {
         return this.postsService.getPost(Number(id));
     }

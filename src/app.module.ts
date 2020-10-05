@@ -4,21 +4,28 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostsModule } from './posts/posts.module';
 import { AuthentificationModule } from './authentification/authentification.module';
 import { ConfigModule } from '@nestjs/config';
-const Joi = require('joi');
+import * as Joi from '@hapi/joi';
+import { ExceptionsLoggerFilter } from './utils/exceptionsLogger.filter';
+import { APP_FILTER } from '@nestjs/core';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      validationSchema: Joi.object({
-        //...
-        JWT_SECRET: 'red',
-        JWT_EXPIRATION_TIME: 3000,
-      })
-    }),
     TypeOrmModule.forRoot(),
     UsersModule,
     PostsModule,
-    AuthentificationModule
+    AuthentificationModule,
+    // ConfigModule.forRoot({
+    //   validationSchema: Joi.object({
+    //     JWT_SECRET: Joi.string().required(),
+    //     JWT_EXPIRATION_TIME: Joi.string().required(),
+    //   })
+    // }),
+  ],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: ExceptionsLoggerFilter,
+    }
   ],
   controllers: [],
 })

@@ -1,4 +1,4 @@
-import { Body, Req, Controller, HttpCode, Post, UseGuards, Response } from '@nestjs/common';
+import { Body, Req, Controller, HttpCode, Post, UseGuards, Response, Get } from '@nestjs/common';
 import { AuthentificationService } from './authentification.service';
 import { User } from '../user/user.entity';
 import { LocalAuthenticationGuard } from './local-authentication.guard';
@@ -25,6 +25,14 @@ export class AuthentificationController {
     //     user.password = undefined;
     //     return user;
     // }
+
+    @UseGuards(JwtAuthenticationGuard)
+    @Get()
+    authenticate(@Req() request: RequestWithUser) {
+        const user = request.user;
+        user.password = undefined;
+        return user;
+    }
 
     @HttpCode(200)
     @UseGuards(LocalAuthenticationGuard)

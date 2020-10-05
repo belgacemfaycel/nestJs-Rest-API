@@ -16,6 +16,9 @@ export class AuthentificationService {
 
     public async register(user: User) {
         try {
+            const hashedPassword = await bcrypt.hash(user.password, 10);
+            user.password = hashedPassword;
+            console.log(user);
             return await this.usersService.create(user);
         } catch (error) {
             throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
