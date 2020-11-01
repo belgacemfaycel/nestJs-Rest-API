@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { IsEmail, IsString, IsNotEmpty, MinLength } from 'class-validator';
-
+import { Exclude, Expose } from 'class-transformer';
 @Entity()
 export class User {
 
@@ -9,14 +9,21 @@ export class User {
 
     @Column({ length: 25 })
     @IsString()
-    @IsNotEmpty()  
+    @IsNotEmpty() 
+    @Expose() 
     fullName: string;
 
+    @Column()
+    @Expose()
+    cookie: string;
+
     @Column('date')
+    @Expose()
     birthday: Date;
 
     @Column({ unique: true })
     @IsEmail()
+    @Expose()
     email: string;
 
     @Column()

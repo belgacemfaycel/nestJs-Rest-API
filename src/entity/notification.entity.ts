@@ -1,22 +1,25 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Posts {
+export class Notification {
 
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    creator_id: number;
+    sender_id: number;
 
     @Column()
-    content: string;
-
-    @Column({ length: 25 })
-    title: string;
+    recipient_id: number;
 
     @Column()
-    filename: string;
+    type_of_notification: number;
+
+    @Column()
+    is_unread: number;
+
+    @Column()
+    post_id: number;
 
     @Column()
     created_time: Date;

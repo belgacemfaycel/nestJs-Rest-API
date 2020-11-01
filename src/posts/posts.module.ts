@@ -10,3 +10,4 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   providers: [PostsService]
 })
 export class PostsModule { }
+

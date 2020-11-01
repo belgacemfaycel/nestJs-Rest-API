@@ -1,25 +1,23 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Posts {
+export class PushSubscription {
 
     @PrimaryGeneratedColumn()
     id: number;
+    
+    @Column()
+    endpoint: string;
 
     @Column()
-    creator_id: number;
+    expirationTime: Date;
 
     @Column()
-    content: string;
-
-    @Column({ length: 25 })
-    title: string;
+    p256dh: string;
 
     @Column()
-    filename: string;
+    auth: string;
 
-    @Column()
-    created_time: Date;
 
 }
 

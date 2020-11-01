@@ -7,6 +7,9 @@ import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
 import { ExceptionsLoggerFilter } from './utils/exceptionsLogger.filter';
 import { APP_FILTER } from '@nestjs/core';
+import { MulterModule } from '@nestjs/platform-express';
+import { NotificationModule } from './notification/notification.module';
+import { PushSubscriptionModule } from './push-subscription/push-subscription.module';
 
 @Module({
   imports: [
@@ -14,6 +17,11 @@ import { APP_FILTER } from '@nestjs/core';
     UsersModule,
     PostsModule,
     AuthentificationModule,
+    MulterModule.register({
+      dest: './files',
+    }),
+    NotificationModule,
+    PushSubscriptionModule,
     // ConfigModule.forRoot({
     //   validationSchema: Joi.object({
     //     JWT_SECRET: Joi.string().required(),
@@ -25,8 +33,8 @@ import { APP_FILTER } from '@nestjs/core';
     {
       provide: APP_FILTER,
       useClass: ExceptionsLoggerFilter,
-    }
-  ],
-  controllers: [],
+    },
+
+  ]
 })
 export class AppModule { }

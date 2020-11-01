@@ -1,4 +1,4 @@
-import { Body, Req, Controller, HttpCode, Post, UseGuards, Response, Get } from '@nestjs/common';
+import { Body, Req, Controller, HttpCode, Post, UseGuards, Response, Get, SerializeOptions } from '@nestjs/common';
 import { AuthentificationService } from './authentification.service';
 import { User } from '../user/user.entity';
 import { LocalAuthenticationGuard } from './local-authentication.guard';
@@ -7,6 +7,9 @@ import JwtAuthenticationGuard from './jwt-authentication.guard';
 import { Response as Res } from 'express';
 
 @Controller('authentication')
+@SerializeOptions({
+    strategy: 'excludeAll'
+})
 export class AuthentificationController {
     constructor(
         private readonly authenticationService: AuthentificationService
@@ -39,9 +42,12 @@ export class AuthentificationController {
     @Post('log-in')
     async logIn(@Req() request: RequestWithUser, @Response() res: Res) {
         const { user } = request;
+        console.log(user);
         const cookie = this.authenticationService.getCookieWithJwtToken(user.id);
+        console.log(cookie);
         res.setHeader('Set-Cookie', cookie);
         user.password = undefined;
+        user.cookie = cookie;
         return res.send(user);
     }
 
